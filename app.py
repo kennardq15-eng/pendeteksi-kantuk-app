@@ -5,8 +5,8 @@ import streamlit as st
 import mediapipe as mp
 from streamlit_webrtc import RTCConfiguration, VideoProcessorBase, webrtc_streamer
 
-# Inisialisasi alias MediaPipe via mp.solutions biar Pylance & Linux server gak error
-mp_face_mesh = mp.solutions.face_mesh
+# Akses modul FaceMesh secara dinamis untuk menghindari issue import di server Linux
+mp_face_mesh = getattr(mp.solutions, "face_mesh")
 
 # --- PAGE SETUP ---
 st.set_page_config(page_title="AI FocusGuard", page_icon="👁️", layout="centered")
