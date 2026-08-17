@@ -1,9 +1,12 @@
 import math
 import cv2
-import mediapipe as mp
 import numpy as np
 import streamlit as st
+import mediapipe as mp
 from streamlit_webrtc import RTCConfiguration, VideoProcessorBase, webrtc_streamer
+
+# Inisialisasi alias MediaPipe via mp.solutions biar Pylance & Linux server gak error
+mp_face_mesh = mp.solutions.face_mesh
 
 # --- PAGE SETUP ---
 st.set_page_config(page_title="AI FocusGuard", page_icon="👁️", layout="centered")
@@ -29,8 +32,7 @@ class FocusGuardProcessor(VideoProcessorBase):
 
   def __init__(self):
     self.closed_eye_frames = 0
-    # Inisialisasi MediaPipe SEKALI SAJA di __init__ biar gak overload CPU server
-    self.face_mesh = mp.solutions.face_mesh.FaceMesh(
+    self.face_mesh = mp_face_mesh.FaceMesh(
         max_num_faces=1,
         refine_landmarks=True,
         min_detection_confidence=0.5,
@@ -85,7 +87,6 @@ class FocusGuardProcessor(VideoProcessorBase):
         status_text = f"FOKUS (EAR: {avg_ear:.2f})"
         color = (0, 255, 0)  # Hijau
 
-    # Overlay Text di Video Stream
     cv2.putText(
         img,
         f"Status: {status_text}",
