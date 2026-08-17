@@ -1,2 +1,5 @@
-libgl1-mesa-glx
-libglib2.0-0
+libgstreamer1.0-0
+freeglut3-dev
+ffmpeg
+libsm6
+libxext6
